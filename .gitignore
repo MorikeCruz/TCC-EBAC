@@ -1,0 +1,13 @@
+node_modules/
+.env
+reports/
+allure-results/
+allure-report/
+cypress/videos/
+cypress/screenshots/
+mochawesome-report/
+Performance/results/
+.env.*
+!.env.example
+*.keystore
+*.jks
