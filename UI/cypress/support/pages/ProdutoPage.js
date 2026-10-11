@@ -15,8 +15,17 @@ class ProdutoPage {
   adicionar({ tamanho, cor, quantidade }) {
     this.elementos.tamanho(tamanho).click();
     this.elementos.cor(cor).click();
-    this.elementos.quantidade().clear().type(String(quantidade));
-    this.elementos.botaoComprar().click();
+
+    this.elementos.quantidade()
+      .should('be.visible')
+      .clear()
+      .type(String(quantidade));
+
+    this.elementos.botaoComprar()
+      .should('be.visible')
+      .should('not.have.class', 'disabled')
+      .and('not.be.disabled')
+      .click();
   }
 }
 
