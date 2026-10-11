@@ -1,3 +1,4 @@
+
 import ProdutoPage from '../support/pages/ProdutoPage';
 import CarrinhoPage from '../support/pages/CarrinhoPage';
 
@@ -8,6 +9,18 @@ const PRODUTO = {
 };
 
 describe('US-0001 - Adicionar item ao carrinho', () => {
+  function diagnosticarCarrinho() {
+    cy.url().then((url) => {
+      cy.log(`URL atual: ${url}`);
+    });
+
+    cy.get('body').then(($body) => {
+      cy.log(`Linhas no carrinho: ${$body.find('.cart_item').length}`);
+      cy.log(`Campos de quantidade: ${$body.find('input.qty').length}`);
+      cy.log(`Texto da página: ${$body.text().slice(0, 500)}`);
+    });
+  }
+
   it('CT-US1-01 - Deve adicionar 1 item válido ao carrinho', () => {
     ProdutoPage.visitar(PRODUTO.slug);
 
@@ -16,9 +29,7 @@ describe('US-0001 - Adicionar item ao carrinho', () => {
       quantidade: 1,
     });
 
-    ProdutoPage.elementos
-      .mensagem()
-      .should('contain', 'adicionado');
+    ProdutoPage.elementos.mensagem().should('contain', 'adicionado');
 
     CarrinhoPage.visitar();
 
@@ -35,6 +46,7 @@ describe('US-0001 - Adicionar item ao carrinho', () => {
     });
 
     CarrinhoPage.visitar();
+    diagnosticarCarrinho();
 
     CarrinhoPage.elementos.quantidade().should('exist');
 
@@ -61,6 +73,7 @@ describe('US-0001 - Adicionar item ao carrinho', () => {
     });
 
     CarrinhoPage.visitar();
+    diagnosticarCarrinho();
 
     CarrinhoPage.elementos.quantidade().should('have.value', '10');
   });
